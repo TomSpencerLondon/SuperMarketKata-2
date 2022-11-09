@@ -1,0 +1,41 @@
+# Mission
+### Ubiquitous Language
+
+- Item - object for sale in shop
+- discount - reduction in price
+  - 3 for 2 - three for the price of two
+  - 2 for £1 - two for the price of £1
+- price - how much an item costs
+  - cost - per unit
+  - cost per kilogram
+- saving - money saved after discount
+- sub-total - money to pay before discount
+- total - cost of all items in basket after savings
+- Basket - container for ordered items
+
+### Possible class structure
+Item
+  name
+  price
+  weight
+  type - FRUIT / NORMAL
+Basket
+  list of Items
+  Receipt
+Receipt
+  SubTotal
+  list of savings
+  Total saving
+  Total to Pay
+Saving
+  name
+  Money discount
+Money
+  currency
+  BigDecimal amount
+Weight
+  amount
+CurrencyType
+  POUND, DOLLAR
+
+
