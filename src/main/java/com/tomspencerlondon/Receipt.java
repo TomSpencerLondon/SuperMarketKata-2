@@ -19,6 +19,10 @@ public class Receipt {
     orderItems = new ArrayList<>();
   }
 
+  public List<OrderItem> orderItems() {
+    return orderItems;
+  }
+
   public Money subTotal() {
     subTotal = orderItems.stream().map(OrderItem::price).reduce(new Money(CurrencyType.POUND, new BigDecimal("0.0")), Money::plus);
     return subTotal;

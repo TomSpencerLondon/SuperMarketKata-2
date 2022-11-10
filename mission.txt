@@ -3,8 +3,8 @@
 
 - Item - object for sale in shop
 - discount - reduction in price
-  - 3 for 2 - three for the price of two
-  - 2 for £1 - two for the price of £1
+  - 3 for 2 - three for the price of two (beans)
+  - 2 for £1 - two for the price of £1 (coke)
 - price - how much an item costs
   - cost - per unit
   - cost per kilogram
@@ -38,5 +38,13 @@ Weight
   amount
 CurrencyType
   POUND, DOLLAR
+Order Item
+  name
+  price
+
+
+### Tasks
+1. add one item without savings [done]
+2. add two items without savings
 
 
