@@ -13,4 +13,7 @@ public class Basket {
   public Receipt receipt() {
     return receipt;
   }
+
+  public void add(Item item) {
+  }
 }

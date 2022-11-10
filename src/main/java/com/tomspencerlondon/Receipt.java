@@ -1,21 +1,26 @@
 package com.tomspencerlondon;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Receipt {
-  private final Money subTotal;
+  private Money subTotal;
   private final List<Saving> savings;
-  private final Money saving;
-  private final Money totalToPay;
+  private Money totalSaving;
+  private Money totalToPay;
+  private final List<OrderItem> orderItems;
 
-  public Receipt(Money subTotal, List<Saving> savings, Money saving, Money totalToPay) {
+  public Receipt(Money subTotal, List<Saving> savings, Money totalSaving, Money totalToPay) {
     this.subTotal = subTotal;
     this.savings = savings;
-    this.saving = saving;
+    this.totalSaving = totalSaving;
     this.totalToPay = totalToPay;
+    orderItems = new ArrayList<>();
   }
 
   public Money subTotal() {
+    subTotal = orderItems.stream().map(OrderItem::price).reduce(new Money(CurrencyType.POUND, new BigDecimal("0.0")), Money::plus);
     return subTotal;
   }
 
@@ -23,12 +28,16 @@ public class Receipt {
     return savings;
   }
 
-  public Money saving() {
-    return saving;
+  public Money totalSaving() {
+    return totalSaving;
   }
 
   public Money totalToPay() {
-    return totalToPay;
+    return subTotal.minus(totalSaving);
+  }
+
+  public void add(Item item) {
+    orderItems.add(new OrderItem(item.name(), item.price()));
   }
 
   @Override
@@ -48,7 +57,7 @@ public class Receipt {
     if (!savings.equals(receipt.savings)) {
       return false;
     }
-    if (!saving.equals(receipt.saving)) {
+    if (!totalSaving.equals(receipt.totalSaving)) {
       return false;
     }
     return totalToPay.equals(receipt.totalToPay);
@@ -58,7 +67,7 @@ public class Receipt {
   public int hashCode() {
     int result = subTotal.hashCode();
     result = 31 * result + savings.hashCode();
-    result = 31 * result + saving.hashCode();
+    result = 31 * result + totalSaving.hashCode();
     result = 31 * result + totalToPay.hashCode();
     return result;
   }

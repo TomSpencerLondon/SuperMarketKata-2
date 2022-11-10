@@ -27,6 +27,7 @@ Receipt
   list of savings
   Total saving
   Total to Pay
+  list of order items
 Saving
   name
   Money discount

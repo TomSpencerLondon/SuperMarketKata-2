@@ -11,6 +11,10 @@ public class Money {
     this.amount = amount;
   }
 
+  public BigDecimal amount() {
+    return amount;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -33,5 +37,13 @@ public class Money {
     int result = currencyType.hashCode();
     result = 31 * result + amount.hashCode();
     return result;
+  }
+
+  public Money plus(Money money) {
+    return new Money(currencyType, amount.add(money.amount()));
+  }
+
+  public Money minus(Money money) {
+    return new Money(currencyType, amount.subtract(money.amount()));
   }
 }
