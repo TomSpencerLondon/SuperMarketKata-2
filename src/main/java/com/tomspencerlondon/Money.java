@@ -15,6 +15,14 @@ public class Money {
     return amount;
   }
 
+  public Money plus(Money money) {
+    return new Money(currencyType, amount.add(money.amount()));
+  }
+
+  public Money minus(Money money) {
+    return new Money(currencyType, amount.subtract(money.amount()));
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -39,11 +47,8 @@ public class Money {
     return result;
   }
 
-  public Money plus(Money money) {
-    return new Money(currencyType, amount.add(money.amount()));
-  }
-
-  public Money minus(Money money) {
-    return new Money(currencyType, amount.subtract(money.amount()));
+  @Override
+  public String toString() {
+    return "Money{" + "currencyType=" + currencyType + ", amount=" + amount + '}';
   }
 }
