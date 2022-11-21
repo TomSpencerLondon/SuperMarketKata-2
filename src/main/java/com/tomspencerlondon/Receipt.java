@@ -34,7 +34,7 @@ public class Receipt {
         countOfBeans++;
       }
 
-      if (countOfBeans == 3) {
+      if (countOfBeans % 3 == 0) {
         Saving beanSaving = new Saving("Beans 3 for 2", new Money(CurrencyType.POUND, new BigDecimal("-0.50")));
         savings.add(beanSaving);
         totalSaving = totalSaving.plus(beanSaving.money());

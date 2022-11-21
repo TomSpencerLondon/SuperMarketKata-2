@@ -83,4 +83,41 @@ public class ReceiptTest {
     assertThat(receipt.orderItems())
         .containsExactly(beansOrder, beansOrder, beansOrder);
   }
+
+  @Test
+  void givenAdded6BeansReceiptHas6BeansPriceSubTotalTwoSavingMinusOnePoundTotalSavings4BeansPriceTotalToPay() {
+    Receipt receipt = new Receipt(
+        new Money(CurrencyType.POUND, BigDecimal.ZERO),
+        new ArrayList<>(),
+        new Money(CurrencyType.POUND, BigDecimal.ZERO),
+        new Money(CurrencyType.POUND, BigDecimal.ZERO));
+
+    Money beansPrice = new Money(CurrencyType.POUND, new BigDecimal("0.50"));
+    Item beans = new Item("Beans", beansPrice, new Weight(BigDecimal.ZERO), ItemType.NORMAL);
+    receipt.add(beans);
+    receipt.add(beans);
+    receipt.add(beans);
+    receipt.add(beans);
+    receipt.add(beans);
+    receipt.add(beans);
+
+    assertThat(receipt.subTotal())
+        .isEqualTo(new Money(CurrencyType.POUND, new BigDecimal("3.00")));
+    assertThat(receipt.savings())
+        .hasSize(2);
+    assertThat(receipt.totalSaving())
+        .isEqualTo(new Money(CurrencyType.POUND, new BigDecimal("-1.00")));
+    assertThat(receipt.totalToPay())
+        .isEqualTo(new Money(CurrencyType.POUND, new BigDecimal("2.00")));
+    OrderItem beansOrder = new OrderItem("Beans", new Money(CurrencyType.POUND, new BigDecimal("0.50")));
+    assertThat(receipt.orderItems())
+        .containsExactly(
+            beansOrder,
+            beansOrder,
+            beansOrder,
+            beansOrder,
+            beansOrder,
+            beansOrder
+        );
+  }
 }
