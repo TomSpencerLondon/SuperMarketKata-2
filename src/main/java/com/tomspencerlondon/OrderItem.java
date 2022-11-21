@@ -1,7 +1,5 @@
 package com.tomspencerlondon;
 
-import java.util.List;
-
 public class OrderItem {
   private final String order;
   private final Money price;
@@ -11,6 +9,9 @@ public class OrderItem {
     this.price = price;
   }
 
+  public String order() {
+    return order;
+  }
 
   public Money price() {
     return price;

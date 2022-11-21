@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.util.Collections;
 
 public class Basket {
-  private Receipt receipt = new Receipt(
+  private final Receipt receipt = new Receipt(
       new Money(CurrencyType.POUND, BigDecimal.ZERO),
-      Collections.EMPTY_LIST,
+      Collections.emptyList(),
       new Money(CurrencyType.POUND, BigDecimal.ZERO),
       new Money(CurrencyType.POUND, BigDecimal.ZERO));
 

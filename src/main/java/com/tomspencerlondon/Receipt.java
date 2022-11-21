@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Receipt {
   private Money subTotal;
-  private final List<Saving> savings;
+  private List<Saving> savings;
   private Money totalSaving;
   private Money totalToPay;
   private final List<OrderItem> orderItems;
@@ -24,7 +24,22 @@ public class Receipt {
   }
 
   public Money subTotal() {
-    subTotal = orderItems.stream().map(OrderItem::price).reduce(new Money(CurrencyType.POUND, new BigDecimal("0.0")), Money::plus);
+    int countOfBeans = 0;
+
+    for (OrderItem orderItem : orderItems) {
+      Money price = orderItem.price();
+      subTotal = subTotal.plus(price);
+
+      if (orderItem.order().equals("Beans")) {
+        countOfBeans++;
+      }
+
+      if (countOfBeans == 3) {
+        Saving beanSaving = new Saving("Beans 3 for 2", new Money(CurrencyType.POUND, new BigDecimal("-0.50")));
+        savings.add(beanSaving);
+        totalSaving = totalSaving.plus(beanSaving.money());
+      }
+    }
     return subTotal;
   }
 
@@ -37,7 +52,7 @@ public class Receipt {
   }
 
   public Money totalToPay() {
-    return subTotal.minus(totalSaving);
+    return subTotal.plus(totalSaving);
   }
 
   public void add(Item item) {

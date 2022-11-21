@@ -3,6 +3,7 @@ package com.tomspencerlondon;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,7 @@ public class ReceiptTest {
   void givenAddedItemReceiptHasItemPriceSubTotalEmptyListOfSavingsZeroTotalSavingsItemPriceTotalToPay() {
     Receipt receipt = new Receipt(
         new Money(CurrencyType.POUND, BigDecimal.ZERO),
-        Collections.EMPTY_LIST,
+        Collections.emptyList(),
         new Money(CurrencyType.POUND, BigDecimal.ZERO),
         new Money(CurrencyType.POUND, BigDecimal.ZERO));
 
@@ -33,7 +34,7 @@ public class ReceiptTest {
   void givenAdded2ItemsReceiptHas2ItemPriceSubTotalEmptyListOfSavingsZeroTotalSavings2ItemsPriceTotalToPay() {
     Receipt receipt = new Receipt(
         new Money(CurrencyType.POUND, BigDecimal.ZERO),
-        Collections.EMPTY_LIST,
+        Collections.emptyList(),
         new Money(CurrencyType.POUND, BigDecimal.ZERO),
         new Money(CurrencyType.POUND, BigDecimal.ZERO));
 
@@ -60,7 +61,7 @@ public class ReceiptTest {
   void givenAdded3BeansReceiptHas3BeansPriceSubTotalOneSavingMinus50TotalSavings2BeansPriceTotalToPay() {
     Receipt receipt = new Receipt(
         new Money(CurrencyType.POUND, BigDecimal.ZERO),
-        Collections.EMPTY_LIST,
+        new ArrayList<>(),
         new Money(CurrencyType.POUND, BigDecimal.ZERO),
         new Money(CurrencyType.POUND, BigDecimal.ZERO));
 
@@ -70,15 +71,14 @@ public class ReceiptTest {
     receipt.add(beans);
     receipt.add(beans);
 
-    Money expected = new Money(CurrencyType.POUND, new BigDecimal("1.00"));
     assertThat(receipt.subTotal())
-        .isEqualTo(expected);
+        .isEqualTo(new Money(CurrencyType.POUND, new BigDecimal("1.50")));
     assertThat(receipt.savings())
-        .isEmpty();
+        .hasSize(1);
     assertThat(receipt.totalSaving())
         .isEqualTo(new Money(CurrencyType.POUND, new BigDecimal("-0.50")));
     assertThat(receipt.totalToPay())
-        .isEqualTo(expected);
+        .isEqualTo(new Money(CurrencyType.POUND, new BigDecimal("1.00")));
     OrderItem beansOrder = new OrderItem("Beans", new Money(CurrencyType.POUND, new BigDecimal("0.50")));
     assertThat(receipt.orderItems())
         .containsExactly(beansOrder, beansOrder, beansOrder);
