@@ -120,4 +120,9 @@ public class ReceiptTest {
             beansOrder
         );
   }
+
+  @Test
+  void givenTwoCokesReceiptHasTwoCokesPriceOneSavingMinus40PenceTotalSavingsFortyPence() {
+
+  }
 }

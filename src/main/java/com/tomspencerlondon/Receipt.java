@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Receipt {
+
   private Money subTotal;
   private List<Saving> savings;
   private Money totalSaving;
   private Money totalToPay;
   private final List<OrderItem> orderItems;
+  private int countOfBeans = 0;
 
   public Receipt(Money subTotal, List<Saving> savings, Money totalSaving, Money totalToPay) {
     this.subTotal = subTotal;
@@ -24,23 +26,30 @@ public class Receipt {
   }
 
   public Money subTotal() {
-    int countOfBeans = 0;
-
     for (OrderItem orderItem : orderItems) {
       Money price = orderItem.price();
       subTotal = subTotal.plus(price);
-
-      if (orderItem.order().equals("Beans")) {
-        countOfBeans++;
-      }
-
-      if (countOfBeans % 3 == 0) {
-        Saving beanSaving = new Saving("Beans 3 for 2", new Money(CurrencyType.POUND, new BigDecimal("-0.50")));
-        savings.add(beanSaving);
-        totalSaving = totalSaving.plus(beanSaving.money());
-      }
+      checkForSaving(orderItem);
     }
     return subTotal;
+  }
+
+  private void checkForSaving(OrderItem orderItem) {
+    if ("Beans".equals(orderItem.order())) {
+      countOfBeans++;
+    }
+
+    if (countOfBeans % 3 == 0) {
+      addSaving(SavingType.BEANS);
+    }
+  }
+
+  private void addSaving(SavingType savingType) {
+    if (savingType == SavingType.BEANS) {
+      Saving beanSaving = new Saving("Beans 3 for 2", new Money(CurrencyType.POUND, new BigDecimal("-0.50")));
+      savings.add(beanSaving);
+      totalSaving = totalSaving.plus(beanSaving.money());
+    }
   }
 
   public List<Saving> savings() {
